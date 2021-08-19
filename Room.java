@@ -20,19 +20,34 @@ public class Room{
     }
 
     public static String getS(){
-        String s = "";
-        s += "\n" + dr.getStatus()  + "\n";
-        s += "\n" + acl.getStatus() + "\n";
-        s += "\n" + acd.getStatus() + "\n";
-        s += "\n" + win.getStatus() + "\n";
-        s += "\n" + lt.getStatus()  + "\n";
-        s += "\n" + ct.getStatus()  + "\n";
-        s += "\n" + mt.getStatus()  + "\n";
+        String s = "\n";
+        s += "door:\n" + dr.getStatus()  + "\n";
+        s += "AirCleaner:\n" + acl.getStatus() + "\n";
+        s += "AirConditioner:\n" + acd.getStatus() + "\n";
+        s += "Window:\n" + win.getStatus() + "\n";
+        s += "Light:\n" + lt.getStatus()  + "\n";
+        s += "Curtain:\n" + ct.getStatus()  + "\n";
+        s += "Meter:\n" + mt.getStatus()  + "\n";
         return s;
     }
 
-    public static void take(int... op){
-        
+    public void control(int... op){
+        switch (op[0]){
+            case 0:
+                dr.selectFunc(op[1], op[2]);
+            case 1:
+                mt.selectFunc(op[1], op[2]);
+            case 2:
+                win.selectFunc(op[1], op[2]);
+            case 3:
+                ct.selectFunc(op[1], op[2]);
+            case 4:
+                acl.selectFunc(op[1], op[2]);
+            case 5:
+                lt.selectFunc(op[1], op[2]);
+            case 6:
+                acd.selectFunc(op[1], op[2]);
+        }
     }
 
     static class Door{
@@ -51,7 +66,7 @@ public class Room{
             key = 0;
         }
 
-        public static void selectFunc(int fid){
+        public static void selectFunc(int fid, int opt){
             if(fid == 0){
                 getStatus();
             }else if (fid == 1) {
@@ -96,7 +111,7 @@ public class Room{
             state = 2;
         }
 
-        public static void selectFunc(int fid){
+        public static void selectFunc(int fid, int opt){
             if(fid == 0){
                 getStatus();
             }else if (fid == 1) {
@@ -137,6 +152,8 @@ public class Room{
         }
 
         public static void switchMode(int opt){
+            
+            power = 1;
             try{
                 mode = opt == 1 ? 2 : 1;
             }catch (Exception e) {
@@ -200,7 +217,7 @@ public class Room{
             state = 0;
         }
 
-        public static void selectFunc(int fid){
+        public static void selectFunc(int fid, int opt){
             if(fid == 0){
                 getStatus();
             }else if (fid == 1) {
@@ -227,19 +244,22 @@ public class Room{
             return status(s, temp, hum, brt);
         }
 
-        public static void getTemperature(){
+        public static int getTemperature(){
             temp = random.nextInt(100);
+            return temp;
         }
 
-        public static void getHumidity(){
+        public static int getHumidity(){
             hum  = random.nextInt(100);
+            return hum;
         }
 
-        public static void getBrightness(){
+        public static int getBrightness(){
             brt  = random.nextInt(100);
+            return brt;
         }
 
-        public static void selectFunc(int fid){
+        public static void selectFunc(int fid, int opt){
             if(fid == 0){
                 getStatus();
             }else if (fid == 1) {
@@ -270,7 +290,7 @@ public class Room{
             state = 0;
         }
 
-        public static void selectFunc(int fid){
+        public static void selectFunc(int fid, int opt){
             if(fid == 0){
                 getStatus();
             }else if (fid == 1) {
@@ -320,11 +340,10 @@ public class Room{
     }
 
     public static String status(String[] name, int... stetas) {
-        String s = "";
+        String s = "\n";
         int cnt = 0;
         for (int num: stetas){
-            s += name[cnt] + num;
-            System.out.println(s);
+            s += name[cnt] + ":" +num;
             s += "\n";
             cnt++;
         }
